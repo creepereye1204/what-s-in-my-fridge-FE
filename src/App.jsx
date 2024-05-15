@@ -10,21 +10,30 @@ import {
   SignUp,
 } from './pages';
 
+import Context from './components/Context';
 import './App.css';
+import { useState } from 'react';
 
 function App() {
+  const [isSidebarOpened, setisSidebarOpened] = useState(false);
+  const handleSidebar = (isSidebarOpened) => {
+    setisSidebarOpened(!isSidebarOpened);
+    console.log(isSidebarOpened);
+  };
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />}></Route>
-        <Route path="/MyFridge" element={<MyFridge />}></Route>
-        <Route path="/ShowRecipes" element={<ShowRecipes />}></Route>
-        <Route path="/Community" element={<Community />}></Route>
-        <Route path="/AddIngredients" element={<AddIngredients />}></Route>
-        <Route path="/SignIn" element={<SignIn />}></Route>
-        <Route path="/SignUp" element={<SignUp />}></Route>
-      </Routes>
-    </BrowserRouter>
+    <Context.Provider value={{ isSidebarOpened, handleSidebar }}>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />}></Route>
+          <Route path="/MyFridge" element={<MyFridge />}></Route>
+          <Route path="/ShowRecipes" element={<ShowRecipes />}></Route>
+          <Route path="/Community" element={<Community />}></Route>
+          <Route path="/AddIngredients" element={<AddIngredients />}></Route>
+          <Route path="/SignIn" element={<SignIn />}></Route>
+          <Route path="/SignUp" element={<SignUp />}></Route>
+        </Routes>
+      </BrowserRouter>
+    </Context.Provider>
   );
 }
 

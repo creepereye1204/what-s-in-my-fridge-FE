@@ -1,7 +1,11 @@
-const Header = ({ text, left, right }) => {
+import Sidebar from './Sidebar';
+
+const Header = ({ text, right }) => {
   return (
     <header>
-      <div>{left}</div>
+      <div>
+        <Sidebar />
+      </div>
       <div>{text}</div>
       <div>{right}</div>
     </header>
