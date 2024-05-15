@@ -49,6 +49,9 @@ const AddIngredients = () => {
             <button onClick={() => handleRemoveIngredient(ingredient)}>
               -
             </button>
+            <span>소비기한</span>
+            <input type="number"></input>
+            <span>일</span>
           </li>
         ))}
       </ul>
