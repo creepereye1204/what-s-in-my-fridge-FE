@@ -18,8 +18,8 @@ function App() {
   const [isSidebarOpened, setisSidebarOpened] = useState(false);
   const handleSidebar = (isSidebarOpened) => {
     setisSidebarOpened(!isSidebarOpened);
-    console.log(isSidebarOpened);
   };
+
   return (
     <Context.Provider value={{ isSidebarOpened, handleSidebar }}>
       <BrowserRouter>
