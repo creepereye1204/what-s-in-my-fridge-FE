@@ -4,9 +4,16 @@ const predefinedIngredients = ['계란', '오징어', '당근', '양배추', '�
 
 const AddIngredients = () => {
   const [selectedIngredients, setSelectedIngredients] = useState({});
+  const [storageMethods, setStorageMethods] = useState(
+    predefinedIngredients.reduce((acc, ingredient) => {
+      acc[ingredient] = '냉장';
+      return acc;
+    }, {})
+  );
+  const [expirationDates, setExpirationDates] = useState({});
 
   const handleSelectIngredient = (ingredient) => {
-    const incresement = ingredient == '고기' ? 50 : 1;
+    const incresement = ingredient === '고기' ? 50 : 1;
     setSelectedIngredients((prevState) => ({
       ...prevState,
       [ingredient]: prevState[ingredient]
@@ -16,7 +23,7 @@ const AddIngredients = () => {
   };
 
   const handleRemoveIngredient = (ingredient) => {
-    const decreasement = ingredient == '고기' ? 50 : 1;
+    const decreasement = ingredient === '고기' ? 50 : 1;
     if (selectedIngredients[ingredient] > 1) {
       setSelectedIngredients((prevState) => ({
         ...prevState,
@@ -29,10 +36,30 @@ const AddIngredients = () => {
     }
   };
 
-  const handleSubmit = () => {
-    // 서버로 선택된 재료 전송
-    console.log(selectedIngredients);
+  const handleStorageMethodChange = (ingredient, method) => {
+    setStorageMethods((prevState) => ({
+      ...prevState,
+      [ingredient]: method,
+    }));
   };
+
+  const handleExpirationDateChange = (ingredient, date) => {
+    setExpirationDates((prevState) => ({
+      ...prevState,
+      [ingredient]: date,
+    }));
+  };
+
+  const handleSubmit = () => {
+    const selectedData = Object.keys(selectedIngredients).map((ingredient) => ({
+      [ingredient]: selectedIngredients[ingredient],
+      storeMethod: storageMethods[ingredient],
+      expireDate: expirationDates[ingredient] || '미지정',
+    }));
+    console.log(selectedData);
+  };
+
+  const ingredientCount = Object.keys(selectedIngredients).length;
 
   return (
     <div>
@@ -45,17 +72,55 @@ const AddIngredients = () => {
               +
             </button>
             <span>{selectedIngredients[ingredient] || 0}</span>
-            <span>{ingredient == '고기' ? 'g' : '개'}</span>
+            <span>{ingredient === '고기' ? 'g' : '개'}</span>
             <button onClick={() => handleRemoveIngredient(ingredient)}>
               -
             </button>
-            <span>소비기한</span>
-            <input type="number"></input>
-            <span>일</span>
+            {selectedIngredients[ingredient] > 0 && (
+              // 선택된 재료가 있을 때만 보관 방법과 소비기한 선택 폼 렌더링
+              <div>
+                <label>
+                  <input
+                    type="radio"
+                    name={`storage-${ingredient}`}
+                    value="냉장"
+                    checked={storageMethods[ingredient] === '냉장'}
+                    onChange={() =>
+                      handleStorageMethodChange(ingredient, '냉장')
+                    }
+                  />
+                  냉장
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name={`storage-${ingredient}`}
+                    value="냉동"
+                    checked={storageMethods[ingredient] === '냉동'}
+                    onChange={() =>
+                      handleStorageMethodChange(ingredient, '냉동')
+                    }
+                  />
+                  냉동
+                </label>
+                <div>
+                  <span>소비기한</span>
+                  <input
+                    type="date"
+                    onChange={(e) =>
+                      handleExpirationDateChange(ingredient, e.target.value)
+                    }
+                  />
+                </div>
+              </div>
+            )}
           </li>
         ))}
       </ul>
-      <button onClick={handleSubmit}>추가하기</button>
+      {ingredientCount > 0 && (
+        // 선택된 재료가 있을 때만 추가하기 버튼 렌더링
+        <button onClick={handleSubmit}>추가하기</button>
+      )}
     </div>
   );
 };
