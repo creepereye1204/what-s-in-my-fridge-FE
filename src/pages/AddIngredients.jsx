@@ -44,6 +44,18 @@ const AddIngredients = () => {
   };
 
   const handleExpirationDateChange = (ingredient, date) => {
+    const selectedDate = new Date(date);
+    const currentDate = new Date();
+
+    if (selectedDate < currentDate) {
+      alert('소비기한은 현재 날짜 이후여야 합니다.');
+      const inputElement = document.querySelector(`#ingredient-${ingredient}`);
+      if (inputElement) {
+        const formattedDate = currentDate.toISOString().slice(0, 10);
+        inputElement.value = formattedDate;
+      }
+      return;
+    }
     setExpirationDates((prevState) => ({
       ...prevState,
       [ingredient]: date,
@@ -107,6 +119,7 @@ const AddIngredients = () => {
                   <span>소비기한</span>
                   <input
                     type="date"
+                    id={`ingredient-${ingredient}`}
                     onChange={(e) =>
                       handleExpirationDateChange(ingredient, e.target.value)
                     }

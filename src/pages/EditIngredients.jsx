@@ -6,42 +6,42 @@ const dummyData = [
     ingredient: '계란',
     count: 10,
     storeMethod: '냉장',
-    expireDate: '2023-06-15',
+    expireDate: '2024-06-15',
   },
   {
     id: 2,
     ingredient: '오징어',
     count: 5,
     storeMethod: '냉동',
-    expireDate: '2023-07-01',
+    expireDate: '2024-07-01',
   },
   {
     id: 3,
     ingredient: '당근',
     count: 8,
     storeMethod: '냉장',
-    expireDate: '2023-05-30',
+    expireDate: '2024-05-30',
   },
   {
     id: 4,
     ingredient: '양배추',
     count: 2,
     storeMethod: '냉장',
-    expireDate: '2023-06-10',
+    expireDate: '2024-06-10',
   },
   {
     id: 5,
     ingredient: '고기',
     count: 500,
     storeMethod: '냉동',
-    expireDate: '2023-06-20',
+    expireDate: '2024-06-20',
   },
   {
     id: 6,
     ingredient: '양상추',
     count: 300,
     storeMethod: '냉장',
-    expireDate: '2023-06-10',
+    expireDate: '2024-06-10',
   },
 ];
 
@@ -81,6 +81,19 @@ const EditIngredients = () => {
   };
 
   const handleExpirationDateChange = (id, date) => {
+    const selectedDate = new Date(date);
+    const currentDate = new Date();
+
+    if (selectedDate < currentDate) {
+      alert('소비기한은 현재 날짜 이후여야 합니다.');
+      const inputElement = document.querySelector(`#ingredient-${id}`);
+      if (inputElement) {
+        const formattedDate = currentDate.toISOString().slice(0, 10);
+        inputElement.value = formattedDate;
+      }
+      return;
+    }
+
     setIngredients((prevIngredients) => {
       const updatedIngredients = [...prevIngredients];
       const ingredient = updatedIngredients.find((item) => item.id === id);
@@ -150,6 +163,7 @@ const EditIngredients = () => {
               <span>소비기한</span>
               <input
                 type="date"
+                id={`ingredient-${item.id}`}
                 value={item.expireDate}
                 onChange={(e) =>
                   handleExpirationDateChange(item.id, e.target.value)

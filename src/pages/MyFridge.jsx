@@ -6,17 +6,59 @@ const MyFridge = () => {
   const navigate = useNavigate();
 
   const fetchData = () => {
-    const fetchedData = [
-      { item: '계란', quantity: 30, storage: 30 },
-      { item: '대파', quantity: 6, storage: 3 },
-      { item: '양파', quantity: 3, storage: 0 },
-      { item: '오징어', quantity: 1, storage: 0 },
-      { item: '고기', quantity: 700, storage: 0 },
-      { item: '고등어', quantity: 4, storage: 0 },
-      { item: '요거트', quantity: 6, storage: 10 },
-      { item: '만두', quantity: 3, storage: 1 },
+    // 서버에서 받은 데이터를 새로운 형식에 맞게 수정
+    const serverData = [
+      {
+        ingredient: '계란',
+        count: 10,
+        storeMethod: '냉장',
+        expireDate: '2024-05-18',
+      },
+      {
+        ingredient: '오징어',
+        count: 5,
+        storeMethod: '냉동',
+        expireDate: '2024-05-19',
+      },
+      {
+        ingredient: '당근',
+        count: 8,
+        storeMethod: '냉장',
+        expireDate: '2024-05-20',
+      },
+      {
+        ingredient: '양배추',
+        count: 2,
+        storeMethod: '냉장',
+        expireDate: '2024-05-30',
+      },
+      {
+        ingredient: '고기',
+        count: 500,
+        storeMethod: '냉동',
+        expireDate: '2024-07-11',
+      },
+      {
+        ingredient: '양상추',
+        count: 300,
+        storeMethod: '냉장',
+        expireDate: '2024-05-17',
+      },
     ];
-    setIngredients(fetchedData);
+
+    // D-day 계산 및 데이터에 추가
+    const today = new Date();
+    const newData = serverData.map((item) => {
+      const expireDate = new Date(item.expireDate);
+      const diffTime = expireDate.getTime() - today.getTime();
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      return {
+        ...item,
+        dDay: diffDays,
+      };
+    });
+
+    setIngredients(newData);
   };
 
   useEffect(() => {
@@ -44,10 +86,14 @@ const MyFridge = () => {
       <div>
         {ingredients.map((ingredient, index) => (
           <div key={index}>
-            <img src={`/images/${ingredient.item}.png`} alt={ingredient.item} />
-            {ingredient.item} {ingredient.quantity} (
-            {ingredient.item == '고기' ? 'g' : '개'})
-            {ingredient.storage === 0 ? '냉장보관' : `${ingredient.storage}일`}
+            <img
+              src={`/images/${ingredient.ingredient}.png`}
+              alt={ingredient.ingredient}
+            />
+            {ingredient.ingredient} {ingredient.count} (
+            {ingredient.ingredient === '고기' ? 'g' : '개'})
+            {ingredient.storeMethod === '냉동' ? '냉동보관' : '냉장보관'}, D-
+            {ingredient.dDay}
           </div>
         ))}
       </div>
