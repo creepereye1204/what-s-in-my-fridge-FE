@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import Header from '../components/Header';
 
 const MyFridge = () => {
   const [ingredients, setIngredients] = useState([]);
@@ -22,14 +23,17 @@ const MyFridge = () => {
 
   return (
     <div>
-      {ingredients.map((ingredient, index) => (
-        <div key={index}>
-          <img src={`/images/${ingredient.item}.png`} alt={ingredient.item} />
-          {ingredient.item} {ingredient.quantity} (
-          {ingredient.item == '고기' ? 'g' : '개'})
-          {ingredient.storage === 0 ? '냉장보관' : `${ingredient.storage}일`}
-        </div>
-      ))}
+      <Header />
+      <div>
+        {ingredients.map((ingredient, index) => (
+          <div key={index}>
+            <img src={`/images/${ingredient.item}.png`} alt={ingredient.item} />
+            {ingredient.item} {ingredient.quantity} (
+            {ingredient.item == '고기' ? 'g' : '개'})
+            {ingredient.storage === 0 ? '냉장보관' : `${ingredient.storage}일`}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
