@@ -24,7 +24,7 @@ const AddIngredients = () => {
 
   const handleRemoveIngredient = (ingredient) => {
     const decreasement = ingredient === '고기' ? 50 : 1;
-    if (selectedIngredients[ingredient] > 1) {
+    if (selectedIngredients[ingredient] > decreasement) {
       setSelectedIngredients((prevState) => ({
         ...prevState,
         [ingredient]: prevState[ingredient] - decreasement,
@@ -54,7 +54,7 @@ const AddIngredients = () => {
     const selectedData = Object.keys(selectedIngredients).map((ingredient) => ({
       [ingredient]: selectedIngredients[ingredient],
       storeMethod: storageMethods[ingredient],
-      expireDate: expirationDates[ingredient] || '미지정',
+      expireDate: expirationDates[ingredient] || '2000-01-01',
     }));
     console.log(selectedData);
   };
