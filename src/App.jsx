@@ -11,7 +11,7 @@ import {
 } from './pages';
 
 import Context from './components/Context';
-import './App.css';
+import './index.css';
 import { useState } from 'react';
 
 function App() {

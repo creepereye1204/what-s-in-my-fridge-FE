@@ -10,7 +10,7 @@ const Header = ({ text, showNickname }) => {
   });
 
   return (
-    <header>
+    <header className="flex justify-between items-center">
       <div>
         <Sidebar />
       </div>
