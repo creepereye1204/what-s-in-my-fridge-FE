@@ -5,7 +5,7 @@ const Home = () => {
   const navigate = useNavigate();
   return (
     <div>
-      <Header />
+      <Header text={''} showNickname={true} />
       <div>
         <div
           onClick={() => {
