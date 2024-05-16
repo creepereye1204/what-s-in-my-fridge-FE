@@ -6,6 +6,7 @@ import {
   ShowRecipes,
   Community,
   AddIngredients,
+  EditIngredients,
   SignIn,
   SignUp,
 } from './pages';
@@ -29,6 +30,7 @@ function App() {
           <Route path="/ShowRecipes" element={<ShowRecipes />}></Route>
           <Route path="/Community" element={<Community />}></Route>
           <Route path="/AddIngredients" element={<AddIngredients />}></Route>
+          <Route path="/EditIngredients" element={<EditIngredients />}></Route>
           <Route path="/SignIn" element={<SignIn />}></Route>
           <Route path="/SignUp" element={<SignUp />}></Route>
         </Routes>

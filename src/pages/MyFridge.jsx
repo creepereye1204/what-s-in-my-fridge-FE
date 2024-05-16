@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
-import Header from '../components/Header';
+import { useNavigate } from 'react-router-dom';
 
 const MyFridge = () => {
   const [ingredients, setIngredients] = useState([]);
+  const navigate = useNavigate();
+
   const fetchData = () => {
     const fetchedData = [
       { item: '계란', quantity: 30, storage: 30 },
@@ -19,11 +21,26 @@ const MyFridge = () => {
 
   useEffect(() => {
     fetchData();
-  });
+  }, []);
 
   return (
     <div>
-      <Header />
+      <div className="flex space-between">
+        <div
+          onClick={() => {
+            navigate('/AddIngredients');
+          }}
+        >
+          재료추가
+        </div>
+        <div
+          onClick={() => {
+            navigate('/EditIngredients');
+          }}
+        >
+          재료수정
+        </div>
+      </div>
       <div>
         {ingredients.map((ingredient, index) => (
           <div key={index}>
