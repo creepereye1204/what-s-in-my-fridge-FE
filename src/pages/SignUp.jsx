@@ -1,10 +1,14 @@
+import axios from 'axios';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const SignUp = () => {
   const [nickname, setNickname] = useState('');
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
+
+  const navigate = useNavigate();
 
   const onChangeId = (e) => {
     setId(e.target.value);
@@ -24,9 +28,21 @@ const SignUp = () => {
   const onClickSignUp = () => {
     if (password != passwordConfirm) alert('비밀번호가 다릅니다');
     else {
-      console.log('아이디 : ' + id);
-      console.log('닉네임 : ' + nickname);
-      console.log('비밀번호 : ' + password);
+      const signupData = { id: id, nickname: nickname, password: password };
+      axios
+        .post('http://210.109.52.15/signup', signupData, {
+          withCredentials: true,
+        })
+        .then((response) => {
+          if (response.status == 200) {
+            alert('회원가입이 완료되었습니다.');
+            navigate('/SignIn');
+          }
+        })
+        .catch((e) => {
+          alert('서버와 연결되지 않았습니다.');
+          console.log('회원가입 오류 => ' + e);
+        });
     }
   };
 

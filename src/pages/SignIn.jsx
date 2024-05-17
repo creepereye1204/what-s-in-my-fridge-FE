@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -9,12 +10,31 @@ const SignIn = () => {
   const handleId = (e) => {
     setId(e.target.value);
   };
+
   const handlePassword = (e) => {
     setPassword(e.target.value);
   };
+
   const onClickSignIn = () => {
-    console.log('서버로 데이터 전송');
+    const signinData = {
+      id: id,
+      password: password,
+    };
+    axios
+      .post('http://210.109.52.15/signip', signinData, {
+        withCredentials: true,
+      })
+      .then((response) => {
+        if (response.status == 200) {
+          navigate('/');
+        }
+      })
+      .catch((e) => {
+        alert('서버와 연결되지 않았습니다.');
+        console.log('로그인 오류 => ' + e);
+      });
   };
+
   return (
     <div>
       <form onSubmit={onClickSignIn}>

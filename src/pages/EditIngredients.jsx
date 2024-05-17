@@ -1,63 +1,30 @@
+import axios from 'axios';
 import { useEffect, useState } from 'react';
 
-const dummyData = [
-  {
-    id: 1,
-    ingredient: '계란',
-    count: 10,
-    storeMethod: '냉장',
-    expireDate: '2024-06-15',
-  },
-  {
-    id: 2,
-    ingredient: '오징어',
-    count: 5,
-    storeMethod: '냉동',
-    expireDate: '2024-07-01',
-  },
-  {
-    id: 3,
-    ingredient: '당근',
-    count: 8,
-    storeMethod: '냉장',
-    expireDate: '2024-05-30',
-  },
-  {
-    id: 4,
-    ingredient: '양배추',
-    count: 2,
-    storeMethod: '냉장',
-    expireDate: '2024-06-10',
-  },
-  {
-    id: 5,
-    ingredient: '고기',
-    count: 500,
-    storeMethod: '냉동',
-    expireDate: '2024-06-20',
-  },
-  {
-    id: 6,
-    ingredient: '양상추',
-    count: 300,
-    storeMethod: '냉장',
-    expireDate: '2024-06-10',
-  },
-];
-
 const EditIngredients = () => {
-  const [ingredients, setIngredients] = useState(() => {
-    return dummyData.map((item, index) => ({ ...item, id: index + 1 }));
-  });
+  const [ingredients, setIngredients] = useState([]);
   const [storageMethods, setStorageMethods] = useState({});
 
   useEffect(() => {
-    const initialStorageMethods = {};
-    for (const item of ingredients) {
-      initialStorageMethods[item.id] = item.storeMethod;
-    }
-    setStorageMethods(initialStorageMethods);
-  }, [ingredients]);
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://210.109.52.15/get');
+        const data = response.data;
+        setIngredients(data);
+
+        const initialStorageMethods = {};
+        for (const item of data) {
+          initialStorageMethods[item.id] = item.storeMethod;
+        }
+        setStorageMethods(initialStorageMethods);
+      } catch (e) {
+        alert('서버와 연결되지 않았습니다.');
+        console.log('데이터 불러오기 오류 =>', e);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleCountChange = (id, operation) => {
     setIngredients((prevIngredients) => {
@@ -115,6 +82,9 @@ const EditIngredients = () => {
   };
 
   const handleSubmit = () => {
+    axios.post('http://210.109.52.15/modify', ingredients, {
+      withCredentials: true,
+    });
     console.log(ingredients);
   };
 

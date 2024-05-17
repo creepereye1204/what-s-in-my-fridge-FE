@@ -1,4 +1,6 @@
+import axios from 'axios';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const predefinedIngredients = ['계란', '오징어', '당근', '양배추', '고기'];
 
@@ -11,6 +13,7 @@ const AddIngredients = () => {
     }, {})
   );
   const [expirationDates, setExpirationDates] = useState({});
+  const navigate = useNavigate();
 
   const handleSelectIngredient = (ingredient) => {
     const incresement = ingredient === '고기' ? 50 : 1;
@@ -68,7 +71,16 @@ const AddIngredients = () => {
       storeMethod: storageMethods[ingredient],
       expireDate: expirationDates[ingredient] || '2000-01-01',
     }));
-    console.log(selectedData);
+    axios
+      .post('http://210.109.52.15/add', selectedData, {
+        withCredentials: true,
+      })
+      .then((response) => {
+        if (response.status == 200) {
+          console.log(selectedData);
+          navigate('/MyFridge');
+        }
+      });
   };
 
   const ingredientCount = Object.keys(selectedIngredients).length;
