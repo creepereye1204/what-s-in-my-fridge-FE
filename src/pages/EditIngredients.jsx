@@ -115,8 +115,7 @@ const EditIngredients = () => {
   };
 
   const handleSubmit = () => {
-    const modifiedData = ingredients.map(({ id, ...rest }) => rest);
-    console.log(modifiedData);
+    console.log(ingredients);
   };
 
   return (
