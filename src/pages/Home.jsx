@@ -9,9 +9,12 @@ const Home = () => {
 
   const fetchNickname = async () => {
     try {
+      setNickname('no_nickname');
       const response = await axios.get('http://210.109.52.15/myinfo');
       if (response.status === 200) {
         setNickname(response.data.nickname);
+      } else {
+        setNickname('no_nickname');
       }
     } catch (e) {
       alert('서버와 연결되지 않았습니다.');
@@ -25,19 +28,13 @@ const Home = () => {
 
   return (
     <div>
-      <Header text={''} showNickname={nickname} />
+      <Header text={''} nickname={nickname} />
       <div>
-        {nickname ? (
-          <div>
-            <div onClick={() => navigate('/MyFridge')}>나의 냉장고</div>
-            <div onClick={() => navigate('/ShowRecipes')}>레시피 보기</div>
-            <div onClick={() => navigate('/Community')}>커뮤니티</div>
-          </div>
-        ) : (
-          <div>
-            <button onClick={() => navigate('/login')}>로그인하러 가기</button>
-          </div>
-        )}
+        <div>
+          <div onClick={() => navigate('/MyFridge')}>나의 냉장고</div>
+          <div onClick={() => navigate('/ShowRecipes')}>레시피 보기</div>
+          <div onClick={() => navigate('/Community')}>커뮤니티</div>
+        </div>
       </div>
     </div>
   );
