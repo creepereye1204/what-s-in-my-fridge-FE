@@ -10,7 +10,7 @@ const Sidebar = () => {
   };
 
   return (
-    <div>
+    <div className="fixed bg-blue-500">
       <div onClick={toggleMenu} style={{ cursor: 'pointer' }}>
         메뉴아이콘
       </div>

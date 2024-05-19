@@ -4,25 +4,29 @@ import Sidebar from './Sidebar';
 const Header = ({ text, nickname }) => {
   const navigate = useNavigate();
   return (
-    <header className="flex justify-between items-center">
-      <div>
-        <Sidebar />
+    <div>
+      <div className="flex justify-between bg-red-600">
+        <div>
+          <Sidebar />
+        </div>
+        <header className="">
+          <div>{text}</div>
+          <div>
+            {nickname === 'no_nickname' ? (
+              <button
+                onClick={() => {
+                  navigate('/SignIn');
+                }}
+              >
+                로그인하기
+              </button>
+            ) : (
+              nickname
+            )}
+          </div>
+        </header>
       </div>
-      <div>{text}</div>
-      <div>
-        {nickname === 'no_nickname' ? (
-          <button
-            onClick={() => {
-              navigate('/SignIn');
-            }}
-          >
-            로그인하기
-          </button>
-        ) : (
-          nickname
-        )}
-      </div>
-    </header>
+    </div>
   );
 };
 
