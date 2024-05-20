@@ -10,12 +10,10 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="fixed bg-blue-500">
-      <div onClick={toggleMenu} style={{ cursor: 'pointer' }}>
-        메뉴아이콘
-      </div>
+    <div className="fixed h-full z-50">
+      <div onClick={toggleMenu}>메뉴아이콘</div>
       {isSidebarOpened && (
-        <ul>
+        <ul className="h-full bg-blue-500">
           <li onClick={() => navigate('/')}>홈</li>
           <li onClick={() => navigate('/MyFridge')}>나의 냉장고</li>
           <li onClick={() => navigate('/ShowRecipes')}>레시피 보기</li>
