@@ -14,6 +14,7 @@ import {
 import Context from './components/Context';
 import './index.css';
 import { useState } from 'react';
+import Post from './pages/Post';
 
 function App() {
   const [isSidebarOpened, setisSidebarOpened] = useState(false);
@@ -31,6 +32,8 @@ function App() {
           <Route path="/Community" element={<Community />}></Route>
           <Route path="/AddIngredients" element={<AddIngredients />}></Route>
           <Route path="/EditIngredients" element={<EditIngredients />}></Route>
+          <Route path="/board/:id" element={<Community />}></Route>
+          <Route path="/post/:id" element={<Post />}></Route>
           <Route path="/SignIn" element={<SignIn />}></Route>
           <Route path="/SignUp" element={<SignUp />}></Route>
         </Routes>
