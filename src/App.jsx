@@ -15,6 +15,7 @@ import Context from './components/Context';
 import './index.css';
 import { useState } from 'react';
 import Post from './pages/Post';
+import Write from './pages/Write';
 
 function App() {
   const [isSidebarOpened, setisSidebarOpened] = useState(false);
@@ -36,6 +37,7 @@ function App() {
           <Route path="/post/:id" element={<Post />}></Route>
           <Route path="/SignIn" element={<SignIn />}></Route>
           <Route path="/SignUp" element={<SignUp />}></Route>
+          <Route path="/Write" element={<Write />}></Route>
         </Routes>
       </BrowserRouter>
     </Context.Provider>
