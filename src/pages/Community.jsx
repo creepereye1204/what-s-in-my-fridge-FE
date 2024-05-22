@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import axios from 'axios';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+// import axios from 'axios';
 import Header from '../components/Header';
 
 const Community = () => {
@@ -10,6 +10,7 @@ const Community = () => {
   const [isNextDisabled, setIsNextDisabled] = useState(false);
   const [totalPages, setTotalPages] = useState(1);
   const { pageNumber } = useParams();
+  const navigate = useNavigate();
 
   const printFetchError = (error) => {
     alert('정보를 불러오는데 오류가 발생했습니다. ' + error);
@@ -81,6 +82,13 @@ const Community = () => {
     <div>
       <Header />
       <div>
+        <button
+          onClick={() => {
+            navigate('/Write');
+          }}
+        >
+          글쓰기
+        </button>
         <div>
           {postList.map((post) => (
             <li key={post.id} className="">
