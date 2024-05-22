@@ -92,7 +92,7 @@ const Community = () => {
         <div>
           {postList.map((post) => (
             <li key={post.id} className="">
-              <Link to={`/posts/${post.id}`}>
+              <Link to={`/Post/${post.id}`}>
                 <div>
                   <span>{post.title}</span>
                   <span>{post.contents}</span>
