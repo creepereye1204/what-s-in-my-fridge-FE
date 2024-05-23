@@ -1,16 +1,32 @@
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import Header from '../components/Header';
 
 const Post = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [post, setPost] = useState(null);
 
+  /*
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        // 실제 API 요청 대신 더미 데이터를 사용
+        const fetchedData = await axios.get(
+          `http://210.109.52.15/post/${id}/get`
+        );
+        setPost(fetchedData.data);
+      } catch (error) {
+        alert('글 정보를 불러오는데 오류가 있습니다.');
+        console.log('글 불러오기 오류 => ' + error);
+      }
+    };
+  });
+  */
+
+  useEffect(() => {
+    const fetchPost = async () => {
+      try {
         const dummyData = [
           {
             id: 1,
@@ -39,7 +55,6 @@ const Post = () => {
             author: false,
             image: 'https://via.placeholder.com/150',
           },
-          // 더 많은 데이터...
         ];
 
         const post = dummyData.find((post) => post.id === parseInt(id));
@@ -74,6 +89,7 @@ const Post = () => {
 
   return (
     <div>
+      <Header />
       <div className="flex flex-col items-center">
         <div className="mt-5 border-b-4 w-5/6"></div>
         <div className="flex flex-row items-center p-2 font-bold text-2xl border-b-4 w-5/6 bg-blue-100">
