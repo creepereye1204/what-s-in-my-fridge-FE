@@ -38,6 +38,7 @@ function App() {
           <Route path="/SignIn" element={<SignIn />}></Route>
           <Route path="/SignUp" element={<SignUp />}></Route>
           <Route path="/Write" element={<Write />}></Route>
+          <Route path="/Write/:id" element={<Write />}></Route>
         </Routes>
       </BrowserRouter>
     </Context.Provider>

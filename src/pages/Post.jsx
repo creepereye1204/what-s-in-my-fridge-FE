@@ -10,7 +10,6 @@ const Post = () => {
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        // 실제 API 요청 대신 더미 데이터를 사용
         const dummyData = [
           {
             id: 1,
@@ -39,7 +38,6 @@ const Post = () => {
             author: false,
             image: 'https://via.placeholder.com/150',
           },
-          // 더 많은 데이터...
         ];
 
         const post = dummyData.find((post) => post.id === parseInt(id));
