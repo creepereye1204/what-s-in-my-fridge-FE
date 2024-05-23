@@ -19,7 +19,7 @@ const Community = () => {
   /*
   const getBoardList = async (page) => {
     try {
-      const resp = await axios.get(`http://210.109.52.15/board/${page}`);
+      const resp = await axios.get(`http://210.109.52.15/post/${page}`);
       setPostList(resp.data.data);
       setTotalPages(resp.data.totalPages);
     } catch (err) {

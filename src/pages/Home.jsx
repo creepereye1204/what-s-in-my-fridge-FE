@@ -7,6 +7,7 @@ const Home = () => {
     const [nickname, setNickname] = useState('');
     const navigate = useNavigate();
 
+<<<<<<< HEAD
     const fetchNickname = async () => {
         try {
             setNickname('no_nickname');
@@ -21,6 +22,24 @@ const Home = () => {
             console.log('정보제공 오류 => ' + e);
         }
     };
+=======
+  const fetchNickname = async () => {
+    try {
+      setNickname('no_nickname');
+      const response = await axios.get('http://210.109.52.15/myinfo');
+      if (response.status === 200) {
+        setNickname(response.data.nickname);
+      } else {
+        setNickname('no_nickname');
+        alert('로그인이 필요한 기능입니다.');
+        navigate('/SignIn');
+      }
+    } catch (e) {
+      alert('서버와 연결되지 않았습니다.');
+      console.log('정보제공 오류 => ' + e);
+    }
+  };
+>>>>>>> 331ada52029ec6c753d6e2254b76dc04be152e7a
 
     useEffect(() => {
         fetchNickname();
