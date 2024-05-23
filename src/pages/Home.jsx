@@ -15,6 +15,8 @@ const Home = () => {
         setNickname(response.data.nickname);
       } else {
         setNickname('no_nickname');
+        alert('로그인이 필요한 기능입니다.');
+        navigate('/SignIn');
       }
     } catch (e) {
       alert('서버와 연결되지 않았습니다.');
