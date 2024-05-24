@@ -1,5 +1,6 @@
-import axios from 'axios';
-import { useEffect, useState } from 'react';
+import axios from "axios";
+import { useEffect, useState } from "react";
+import Sidebar from "../components/Sidebar";
 
 const EditIngredients = () => {
   const [ingredients, setIngredients] = useState([]);
@@ -8,7 +9,7 @@ const EditIngredients = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://210.109.52.15/get');
+        const response = await axios.get("http://210.109.52.15/get");
         const data = response.data;
         setIngredients(data);
 
@@ -18,8 +19,8 @@ const EditIngredients = () => {
         }
         setStorageMethods(initialStorageMethods);
       } catch (e) {
-        alert('서버와 연결되지 않았습니다.');
-        console.log('데이터 불러오기 오류 =>', e);
+        alert("서버와 연결되지 않았습니다.");
+        console.log("데이터 불러오기 오류 =>", e);
       }
     };
 
@@ -30,10 +31,10 @@ const EditIngredients = () => {
     setIngredients((prevIngredients) => {
       const updatedIngredients = [...prevIngredients];
       const ingredient = updatedIngredients.find((item) => item.id === id);
-      const increment = ingredient.ingredient === '고기' ? 50 : 1;
-      if (operation === 'increase') {
+      const increment = ingredient.ingredient === "고기" ? 50 : 1;
+      if (operation === "increase") {
         ingredient.count += increment;
-      } else if (operation === 'decrease' && ingredient.count > increment) {
+      } else if (operation === "decrease" && ingredient.count > increment) {
         ingredient.count -= increment;
       }
       return updatedIngredients;
@@ -52,7 +53,7 @@ const EditIngredients = () => {
     const currentDate = new Date();
 
     if (selectedDate < currentDate) {
-      alert('소비기한은 현재 날짜 이후여야 합니다.');
+      alert("소비기한은 현재 날짜 이후여야 합니다.");
       const inputElement = document.querySelector(`#ingredient-${id}`);
       if (inputElement) {
         const formattedDate = currentDate.toISOString().slice(0, 10);
@@ -82,7 +83,7 @@ const EditIngredients = () => {
   };
 
   const handleSubmit = () => {
-    axios.post('http://210.109.52.15/modify', ingredients, {
+    axios.post("http://210.109.52.15/modify", ingredients, {
       withCredentials: true,
     });
     console.log(ingredients);
@@ -90,6 +91,10 @@ const EditIngredients = () => {
 
   return (
     <div>
+      <Sidebar />
+      <div className="Jua-font text-blue-900 text-4xl mt-4 sticky top-0 bg-blue-100 flex items-center justify-center relative">
+        <div>재료 수정</div>
+      </div>
       <ul>
         {ingredients.map((item) => (
           <li key={item.id}>
@@ -97,12 +102,12 @@ const EditIngredients = () => {
               삭제
             </button>
             <span>{item.ingredient}</span>
-            <button onClick={() => handleCountChange(item.id, 'decrease')}>
+            <button onClick={() => handleCountChange(item.id, "decrease")}>
               -
             </button>
             <span>{item.count}</span>
-            <span>{item.ingredient === '고기' ? 'g' : '개'}</span>
-            <button onClick={() => handleCountChange(item.id, 'increase')}>
+            <span>{item.ingredient === "고기" ? "g" : "개"}</span>
+            <button onClick={() => handleCountChange(item.id, "increase")}>
               +
             </button>
 
@@ -112,8 +117,8 @@ const EditIngredients = () => {
                   type="radio"
                   name={`storage-${item.id}`}
                   value="냉장"
-                  checked={storageMethods[item.id] === '냉장'}
-                  onChange={() => handleStorageMethodChange(item.id, '냉장')}
+                  checked={storageMethods[item.id] === "냉장"}
+                  onChange={() => handleStorageMethodChange(item.id, "냉장")}
                 />
                 냉장
               </label>
@@ -122,8 +127,8 @@ const EditIngredients = () => {
                   type="radio"
                   name={`storage-${item.id}`}
                   value="냉동"
-                  checked={storageMethods[item.id] === '냉동'}
-                  onChange={() => handleStorageMethodChange(item.id, '냉동')}
+                  checked={storageMethods[item.id] === "냉동"}
+                  onChange={() => handleStorageMethodChange(item.id, "냉동")}
                 />
                 냉동
               </label>

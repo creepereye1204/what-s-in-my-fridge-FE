@@ -1,15 +1,15 @@
-import axios from 'axios';
-import { useState, useEffect } from 'react';
-import { useNavigate, useParams, useLocation } from 'react-router-dom';
-import Header from '../components/Header';
+import axios from "axios";
+import { useState, useEffect } from "react";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
+import Sidebar from "../components/Sidebar";
 
 const Write = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const location = useLocation();
-  const [title, setTitle] = useState('');
-  const [contents, setContents] = useState('');
-  const [nickname, setNickname] = useState('');
+  const [title, setTitle] = useState("");
+  const [contents, setContents] = useState("");
+  const [nickname, setNickname] = useState("");
   const [loading, setLoading] = useState(true);
   const [image, setImage] = useState(null);
   const isEditMode = location.state && location.state.isEditMode;
@@ -17,12 +17,12 @@ const Write = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://210.109.52.15/myinfo');
+        const response = await axios.get("http://210.109.52.15/myinfo");
         const { nickname } = response.data;
         setNickname(nickname);
         setLoading(false);
       } catch (error) {
-        setNickname('no_nickname');
+        setNickname("no_nickname");
         setLoading(false);
       }
     };
@@ -41,7 +41,7 @@ const Write = () => {
           setNickname(nickname);
           setLoading(false);
         } catch (error) {
-          alert('글을 불러오는데 오류가 발생했습니다.');
+          alert("글을 불러오는데 오류가 발생했습니다.");
         }
       };
 
@@ -50,9 +50,9 @@ const Write = () => {
   }, [isEditMode, id]);
 
   useEffect(() => {
-    if (nickname == 'no_nickname') {
-      alert('글을 쓰기 위해서 로그인이 필요합니다!');
-      navigate('/SignIn');
+    if (nickname == "no_nickname") {
+      alert("글을 쓰기 위해서 로그인이 필요합니다!");
+      navigate("/SignIn");
     }
   }, [isEditMode, loading, nickname]);
 
@@ -69,57 +69,57 @@ const Write = () => {
   const handleSubmit = async () => {
     try {
       if (isEditMode) {
-        const shouldUpdate = window.confirm('수정하시겠습니까?');
+        const shouldUpdate = window.confirm("수정하시겠습니까?");
         if (shouldUpdate) {
           const formData = new FormData(); // FormData 객체 생성
-          formData.append('title', title); // 제목 추가
-          formData.append('contents', contents); // 본문 추가
+          formData.append("title", title); // 제목 추가
+          formData.append("contents", contents); // 본문 추가
           if (image) {
-            formData.append('image', image); // 이미지 파일 추가
+            formData.append("image", image); // 이미지 파일 추가
           }
 
           // 글 수정 요청 처리
           axios.put(`/post/${id}`, formData, {
             headers: {
-              'Content-Type': 'multipart/form-data', // 이미지 업로드를 위한 헤더 설정
+              "Content-Type": "multipart/form-data", // 이미지 업로드를 위한 헤더 설정
             },
           });
-          alert('글이 성공적으로 수정되었습니다.');
+          alert("글이 성공적으로 수정되었습니다.");
           navigate(`/post/${id}`);
         }
       } else {
-        const shouldSubmit = window.confirm('작성하시겠습니까?');
+        const shouldSubmit = window.confirm("작성하시겠습니까?");
         if (shouldSubmit) {
           const formData = new FormData(); // FormData 객체 생성
-          formData.append('title', title); // 제목 추가
-          formData.append('contents', contents); // 본문 추가
+          formData.append("title", title); // 제목 추가
+          formData.append("contents", contents); // 본문 추가
           if (image) {
-            formData.append('image', image); // 이미지 파일 추가
+            formData.append("image", image); // 이미지 파일 추가
           }
 
           // 글 작성 요청 처리
-          await axios.post('/post/add', formData, {
+          await axios.post("/post/add", formData, {
             headers: {
-              'Content-Type': 'multipart/form-data', // 이미지 업로드를 위한 헤더 설정
+              "Content-Type": "multipart/form-data", // 이미지 업로드를 위한 헤더 설정
             },
           });
-          alert('글이 성공적으로 저장되었습니다.');
-          navigate('/Community');
+          alert("글이 성공적으로 저장되었습니다.");
+          navigate("/Community");
         }
       }
     } catch (error) {
-      alert('글 저장에 실패했습니다..');
+      alert("글 저장에 실패했습니다..");
       if (isEditMode) {
         navigate(`/post/${id}`);
       } else {
-        navigate('/Community');
+        navigate("/Community");
       }
     }
   };
 
   return (
     <div>
-      <Header />
+      <Sidebar />
       <div className="flex flex-col pt-10 items-center justify-center bg-blue-100 min-h-screen">
         <div className="p-4 w-5/6 border-4 border-project rounded-lg">
           <div>
@@ -136,7 +136,7 @@ const Write = () => {
                   className=" w-full text-left font-semibold text-lg text-project border-2 border-sky-900 rounded-lg"
                   type="text"
                   placeholder="닉네임"
-                  value={loading ? '' : nickname}
+                  value={loading ? "" : nickname}
                   readOnly
                 />
               </div>
@@ -147,7 +147,7 @@ const Write = () => {
             <textarea
               className="p-2 w-full h-80 resize-none outline-none"
               placeholder="본문을 입력하세요!"
-              maxLength={'1000'}
+              maxLength={"1000"}
               value={contents}
               onChange={handleContentsChange}
               required
@@ -164,7 +164,7 @@ const Write = () => {
             <input
               className="Jua-font border-2 border-blue-900 bg-blue-200"
               type="button"
-              value={isEditMode ? '수정하기' : '작성하기'}
+              value={isEditMode ? "수정하기" : "작성하기"}
               onClick={handleSubmit}
             ></input>
           </div>
