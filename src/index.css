@@ -61,3 +61,9 @@ input[type="checkbox"]:checked ~ .slide-menu {
     background-color: #13438C; 
     margin: 20px 0; 
 }
+.custom-hr-Community {
+    border: 0;
+    height: 4px;
+    background-color: #13438C;
+    margin: 5px 0;
+}

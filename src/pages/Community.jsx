@@ -79,34 +79,37 @@ const Community = () => {
   };
 
   return (
-    <div>
+    <div className="bg-blue-100 flex flex-col text-center relative min-h-screen">
       <Header />
+      <div className="Jua-font text-blue-900 text-4xl mt-4 sticky top-0 bg-blue-100 flex items-center justify-center relative">
+          <div>커뮤니티</div>
+          <button className="Jua-font text-blue-900 text-2xl absolute right-0 mr-4 border-2 rounded-1xl border-sky-900"
+              onClick={() => { navigate('/Write'); }}>글작성
+          </button>
+      </div>
+      <div className="w-full">
       <div>
-        <button
-          onClick={() => {
-            navigate('/Write');
-          }}
-        >
-          글쓰기
-        </button>
-        <div>
+        <hr className="custom-hr-Community" />
+      </div>
+        <div className="w-full ">
           {postList.map((post) => (
-            <li key={post.id} className="">
+            <li key={post.id} className="flex flex-col w-full text-left">
               <Link to={`/Post/${post.id}`}>
-                <div>
-                  <span>{post.title}</span>
-                  <span>{post.contents}</span>
+                <div className="w-full">
+                  <span className="Jua-font text-blue-900 text-2xl">{post.title}</span><br></br>
+                  <span className="Jua-font text-blue-900 text-1xl">{post.contents}</span>
+                  <hr className="custom-hr-Community w-full" />
                 </div>
               </Link>
             </li>
           ))}
-          <hr />
         </div>
-        <div>
-          <button disabled={isPreviousDisabled} onClick={goToPreviousPage}>
+        <div className="mb-4">
+          <button className="font-bold" disabled={isPreviousDisabled} onClick={goToPreviousPage}>
             이전페이지
           </button>
-          <button disabled={isNextDisabled} onClick={goToNextPage}>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <button className="font-bold" disabled={isNextDisabled} onClick={goToNextPage}>
             다음페이지
           </button>
         </div>
