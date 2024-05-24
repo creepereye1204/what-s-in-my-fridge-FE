@@ -5,7 +5,7 @@ const Header = ({ text, nickname }) => {
   const navigate = useNavigate();
   return (
     <div>
-      <div className="flex justify-between bg-red-600">
+      <div className="flex justify-between bg-red-500">
         <div>
           <Sidebar />
         </div>
@@ -17,8 +17,8 @@ const Header = ({ text, nickname }) => {
                 onClick={() => {
                   navigate('/SignIn');
                 }}
-              >
-                ë¡œê·¸ì¸í•˜ê¸°
+              > ·Î±×ÀÎÇÏ±â
+                Qkfrksak
               </button>
             ) : (
               nickname

@@ -120,20 +120,20 @@ const Write = () => {
   return (
     <div>
       <Header />
-      <div className="flex flex-col pt-10 items-center justify-center">
+      <div className="flex flex-col pt-10 items-center justify-center bg-blue-100 min-h-screen">
         <div className="p-4 w-5/6 border-4 border-project rounded-lg">
           <div>
             <input
-              className="pt-4 px-4 font-bold text-2xl w-full"
+              className="pt-4 px-4 font-bold text-2xl w-full border-2 border-sky-900 rounded-lg"
               type="text"
               placeholder="제목을 작성하세요!"
               value={title}
               onChange={handleTitleChange}
             />
-            <div className="p-4 flex flex-row justify-between border-b-4 border-orange-100">
+            <div className="p-4 flex flex-row justify-between borde-2 border-sky-900">
               <div>
                 <input
-                  className=" w-full text-left font-semibold text-lg text-project"
+                  className=" w-full text-left font-semibold text-lg text-project border-2 border-sky-900 rounded-lg"
                   type="text"
                   placeholder="닉네임"
                   value={loading ? '' : nickname}
@@ -143,7 +143,7 @@ const Write = () => {
             </div>
           </div>
 
-          <div className=" mt-10 border-4 border-orange-300 rounded-lg">
+          <div className=" mt-2 border-4 border-sky-900">
             <textarea
               className="p-2 w-full h-80 resize-none outline-none"
               placeholder="본문을 입력하세요!"
@@ -162,6 +162,7 @@ const Write = () => {
           </div>
           <div className=" pt-6">
             <input
+              className="Jua-font border-2 border-blue-900 bg-blue-200"
               type="button"
               value={isEditMode ? '수정하기' : '작성하기'}
               onClick={handleSubmit}
