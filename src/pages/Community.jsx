@@ -95,11 +95,11 @@ const Community = () => {
           {postList.map((post) => (
             <li key={post.id} className="flex flex-col w-full text-left">
               <Link to={`/Post/${post.id}`}>
-                <div className="w-full">
+                <div className="w-full sm:w-64 overflow-hidden">
                   <span className="Jua-font text-blue-900 text-2xl">{post.title}</span><br></br>
-                  <span className="Jua-font text-blue-900 text-1xl">{post.contents}</span>
-                  <hr className="custom-hr-Community w-full" />
+                  <span className="Jua-font text-blue-900 text-1xl truncate block">{post.contents}</span> 
                 </div>
+                <hr className="custom-hr-Community w-full" />
               </Link>
             </li>
           ))}
