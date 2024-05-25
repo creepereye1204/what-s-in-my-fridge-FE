@@ -1,11 +1,11 @@
-import axios from 'axios';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import axios from "axios";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const SignIn = () => {
   const navigate = useNavigate();
-  const [id, setId] = useState('');
-  const [password, setPassword] = useState('');
+  const [id, setId] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleId = (e) => {
     setId(e.target.value);
@@ -22,17 +22,17 @@ const SignIn = () => {
       password: password,
     };
     axios
-      .post('http://210.109.52.15/signip', signinData, {
+      .post("http://210.109.52.15/signip", signinData, {
         withCredentials: true,
       })
       .then((response) => {
         if (response.status === 200) {
-          navigate('/');
+          navigate("/");
         }
       })
       .catch((e) => {
-        alert('서버와 연결되지 않았습니다.');
-        console.log('로그인 오류 => ' + e);
+        alert("서버와 연결되지 않았습니다.");
+        console.log("로그인 오류 => " + e);
       });
   };
 
@@ -71,7 +71,7 @@ const SignIn = () => {
         </form>
         <div
           onClick={() => {
-            navigate('/SignUp');
+            navigate("/SignUp");
           }}
           className="mt-4 text-center text-blue-900 cursor-pointer hover:text-blue-800"
         >
@@ -83,4 +83,3 @@ const SignIn = () => {
 };
 
 export default SignIn;
-
