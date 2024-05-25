@@ -84,7 +84,7 @@ const Community = () => {
       <div className="Jua-font text-blue-900 text-4xl mt-4 sticky top-0 bg-blue-100 flex items-center justify-center relative">
         <div>커뮤니티</div>
         <button
-          className="Jua-font text-blue-900 text-2xl absolute right-0 mr-4 border-2 rounded-1xl border-sky-900"
+          className="Jua-font text-blue-900 text-2xl absolute right-0 mr-4 border-sky-900"
           onClick={() => {
             navigate("/Write");
           }}
@@ -96,11 +96,11 @@ const Community = () => {
         <div>
           <hr className="custom-hr-Community" />
         </div>
-        <div className="w-full ">
+        <div className="w-full">
           {postList.map((post) => (
             <li key={post.id} className="flex flex-col w-full text-left">
               <Link to={`/Post/${post.id}`}>
-                <div className="w-full sm:w-64 overflow-hidden">
+                <div className="w-full sm:w-64 ml-3 overflow-hidden">
                   <span className="Jua-font text-blue-900 text-2xl">
                     {post.title}
                   </span>
@@ -114,9 +114,9 @@ const Community = () => {
             </li>
           ))}
         </div>
-        <div className="mb-4">
+        <div className="mb-4 m-2">
           <button
-            className="font-bold"
+            className="Jua-font border-2 border-sky-900 bg-blue-200 p-1 rounded-2xl"
             disabled={isPreviousDisabled}
             onClick={goToPreviousPage}
           >
@@ -124,7 +124,7 @@ const Community = () => {
           </button>
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <button
-            className="font-bold"
+            className="Jua-font border-2 border-sky-900 bg-blue-200 p-1 rounded-2xl"
             disabled={isNextDisabled}
             onClick={goToNextPage}
           >

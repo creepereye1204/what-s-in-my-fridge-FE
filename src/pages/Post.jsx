@@ -131,7 +131,7 @@ const Post = () => {
           </div>
         </div>
         <div className="Jua-font text-blue-900 border-b-4 w-5/6 break-words text-left">
-          <div className="Jua-font text-blue-900 border-t-2 p-2 pt-10 pb-10 font-semibold text-lg">
+          <div className="Jua-font text-blue-900 border-t-2 p-2 pt-10 pb-10 font-medium text-lg">
             {post.contents}
           </div>
           {post.image && (

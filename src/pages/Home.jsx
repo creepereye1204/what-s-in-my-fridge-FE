@@ -53,13 +53,13 @@ const Home = () => {
   return (
     <div className="bg-blue-100 h-screen flex flex-col items-center font-sans text-center relative">
       <Sidebar />
-      <div>
+      <div className="Jua-font text-blue-900 text-2xl absolute right-0 mr-4 rounded-1xl border-sky-900 cursor-pointer">
         {nickname === "no_nickname" ? (
           <buttonc
             onClick={() => {
               navigate("/SignIn");
             }}
-            className="Jua-font text-blue-900 text-2xl absolute right-0 mr-4 border-2 rounded-1xl border-sky-900"
+            className=""
           >
             로그인
           </buttonc>
