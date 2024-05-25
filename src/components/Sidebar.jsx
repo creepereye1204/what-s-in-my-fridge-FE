@@ -43,12 +43,6 @@ const Sidebar = () => {
     setMenuOpen(!menuOpen);
   };
 
-  const handleSignInClick = () => {
-    if (nickname === "no_nickname") {
-      navigate("/SignIn");
-    }
-  };
-
   return (
     <>
       {!menuOpen && (
@@ -71,16 +65,14 @@ const Sidebar = () => {
       {menuOpen && <div className="overlay show"></div>} {/* 오버레이 추가 */}
       <div className={`slide-menu ${menuOpen ? "left-0" : "left-[-300px]"}`}>
         <div className="p-5">
-          <h2 className="Jua-font text-6xl text-blue-900 mb-4">메뉴</h2>
-          <hr className="custom-hr" />
           <ul>
             <li
-              onClick={handleSignInClick}
+              onClick={() => navigate("/")}
               className={`Jua-font block py-2 text-blue-900 text-4xl cursor-pointer ${
                 nickname !== "no_nickname" && "pointer-events-none"
               }`}
             >
-              {nickname !== "no_nickname" ? nickname : "로그인"}
+              냉장고를 부탁해
             </li>
             <hr className="custom-hr" />
             <li

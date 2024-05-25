@@ -36,7 +36,7 @@ const ShowRecipes = () => {
   return (
     <div>
       <Sidebar />
-      <div className="Jua-font text-blue-900 text-4xl mt-4 sticky top-0 bg-blue-100 flex items-center justify-center relative">
+      <div className="Jua-font text-blue-900 text-4xl mt-4 sticky top-0 bg-blue-100 flex items-center justify-center ">
         <div>레시피 보기</div>
       </div>
       {dummyRecipes.map((recipe, index) => (
