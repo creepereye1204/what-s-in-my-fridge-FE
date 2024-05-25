@@ -37,18 +37,32 @@ const MyFridge = () => {
   }, []);
 
   return (
-    <div>
+    <div className="bg-blue-100 flex flex-col items-center font-sans text-center relative min-h-screen">
       <Sidebar />
       <div className="Jua-font text-blue-900 text-4xl mt-4 sticky top-0 bg-blue-100 flex items-center justify-center relative">
         <div>냉장고 보기</div>
       </div>
-      <div className="flex space-between">
-        <div onClick={() => navigate("/AddIngredients")}>재료추가</div>
-        <div onClick={() => navigate("/EditIngredients")}>재료수정</div>
+      <div className="w-full flex justify-center">
+        <hr className="custom-hr w-full" />
       </div>
+      <div className="Jua-font flex fixed right-0 top-0 p-4 space-x-4 bg-blue-100">
+        <div
+          className="Jua-font border-2 border-sky-900 bg-blue-200 p-1 rounded-2xl select-none"
+          onClick={() => navigate("/AddIngredients")}
+        >
+          재료추가
+        </div>
+        <div
+          className="Jua-font border-2 border-sky-900 bg-blue-200 p-1 rounded-2xl select-none"
+          onClick={() => navigate("/EditIngredients")}
+        >
+          재료수정
+        </div>
+      </div>
+
       <div>
         {ingredients.map((data) => (
-          <div key={data.id}>
+          <div className="Jua-font mb-4" key={data.id}>
             <img src={`/images/${data.ingredient}.png`} alt={data.ingredient} />
             {data.ingredient} {data.count} (
             {data.ingredient === "고기" ? "g" : "개"})
