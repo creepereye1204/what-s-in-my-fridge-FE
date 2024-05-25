@@ -65,3 +65,9 @@ input[type="checkbox"]:checked ~ .slide-menu {
   background-color: #13438c;
   margin: 5px 0;
 }
+.custom-hr-EditIngredients {
+  border: 0;
+  height: 4px;
+  background-color: #13438c;
+  margin-top: 20px;
+}

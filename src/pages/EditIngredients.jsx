@@ -90,10 +90,13 @@ const EditIngredients = () => {
   };
 
   return (
-    <div>
+    <div className="bg-blue-100 flex flex-col items-center font-sans text-center relative min-h-screen">
       <Sidebar />
       <div className="Jua-font text-blue-900 text-4xl mt-4 sticky top-0 bg-blue-100 flex items-center justify-center relative">
         <div>재료 수정</div>
+      </div>
+      <div className="w-full flex justify-center">
+        <hr className="custom-hr w-full" />
       </div>
       <ul>
         {ingredients.map((item) => (
@@ -147,7 +150,12 @@ const EditIngredients = () => {
           </li>
         ))}
       </ul>
-      <button onClick={handleSubmit}>수정하기</button>
+      <button
+        className="Jua-font border-2 border-sky-900 bg-blue-200 p-1 rounded-2xl"
+        onClick={handleSubmit}
+      >
+        수정하기
+      </button>
     </div>
   );
 };
