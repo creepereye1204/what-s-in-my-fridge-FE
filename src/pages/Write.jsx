@@ -50,9 +50,9 @@ const Write = () => {
   }, [isEditMode, id]);
 
   useEffect(() => {
-    if (nickname == "no_nickname") {
+    if (nickname === "no_nickname") {
       alert("글을 쓰기 위해서 로그인이 필요합니다!");
-      navigate("/SignIn");
+      // navigate("/SignIn");
     }
   }, [isEditMode, loading, nickname]);
 
@@ -63,9 +63,11 @@ const Write = () => {
   const handleContentsChange = (e) => {
     setContents(e.target.value);
   };
+
   const handleImageChange = (e) => {
     setImage(e.target.files[0]); // 선택한 이미지 파일 업데이트
   };
+
   const handleSubmit = async () => {
     try {
       if (isEditMode) {
@@ -118,34 +120,26 @@ const Write = () => {
   };
 
   return (
-    <div>
+    <div className="bg-blue-100 min-h-screen flex flex-col">
       <Sidebar />
-      <div className="flex flex-col pt-10 items-center justify-center bg-blue-100 min-h-screen">
-        <div className="p-4 w-5/6 border-4 border-project rounded-lg">
+      <div className="fixed top-0 right-0 mt-4 mr-4 flex items-center justify-center h-10 rounded-1xl border-sky-900">
+        <span className="Jua-font text-blue-900 text-2xl">{nickname}</span>
+      </div>
+      <div className="flex flex-col pt-10 items-center justify-center flex-grow">
+        <div className="p-4 w-5/6 border-project rounded-lg">
           <div>
             <input
-              className="pt-4 px-4 font-bold text-2xl w-full border-2 border-sky-900 rounded-lg"
+              className="px-4 font-bold text-2xl w-full border-2 border-sky-900 rounded-lg bg-blue-50 text-sky-900"
               type="text"
               placeholder="제목을 작성하세요!"
               value={title}
               onChange={handleTitleChange}
             />
-            <div className="p-4 flex flex-row justify-between borde-2 border-sky-900">
-              <div>
-                <input
-                  className=" w-full text-left font-semibold text-lg text-project border-2 border-sky-900 rounded-lg"
-                  type="text"
-                  placeholder="닉네임"
-                  value={loading ? "" : nickname}
-                  readOnly
-                />
-              </div>
-            </div>
           </div>
 
-          <div className=" mt-2 border-4 border-sky-900">
+          <div className="mt-2 p-1 rounded-lg border-2 border-sky-900">
             <textarea
-              className="p-2 w-full h-80 resize-none outline-none"
+              className="w-full h-96 resize-none outline-none bg-blue-50 text-sky-900"
               placeholder="본문을 입력하세요!"
               maxLength={"1000"}
               value={contents}
@@ -160,13 +154,13 @@ const Write = () => {
               onChange={handleImageChange} // 이미지 파일 선택 핸들러
             />
           </div>
-          <div className=" pt-6">
+          <div className="pt-6 flex justify-end">
             <input
-              className="Jua-font border-2 border-blue-900 bg-blue-200"
+              className="Jua-font border-2 border-sky-900 p-2 rounded-2xl bg-blue-300 blue-600 hover:bg-blue-600"
               type="button"
               value={isEditMode ? "수정하기" : "작성하기"}
               onClick={handleSubmit}
-            ></input>
+            />
           </div>
         </div>
       </div>
