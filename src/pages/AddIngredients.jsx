@@ -104,14 +104,20 @@ const AddIngredients = () => {
                 <span>{ingredient}</span>
                 &nbsp;
                 <div className="flex items-center space-x-2">
-                  <button onClick={() => handleSelectIngredient(ingredient)}>
-                    (+)
-                  </button>
                   <span>{selectedIngredients[ingredient] || 0}</span>
                   <span>{ingredient === '고기' ? 'g' : '개'}</span>
-                  &nbsp;
-                  <button onClick={() => handleRemoveIngredient(ingredient)}>
-                    (-)
+
+                  <button
+                    onClick={() => handleRemoveIngredient(ingredient)}
+                    className="border-2 border-blue-900 bg-blue-200  h-8 w-8 rounded-lg ml-1"
+                  >
+                    -
+                  </button>
+                  <button
+                    onClick={() => handleSelectIngredient(ingredient)}
+                    className="border-2 border-blue-900 bg-blue-200  h-8 w-8 rounded-lg ml-1"
+                  >
+                    +
                   </button>
                 </div>
               </div>
