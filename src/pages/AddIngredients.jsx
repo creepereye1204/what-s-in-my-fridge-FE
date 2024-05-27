@@ -123,32 +123,34 @@ const AddIngredients = () => {
               </div>
               {selectedIngredients[ingredient] > 0 && (
                 // 선택된 재료가 있을 때만 보관 방법과 소비기한 선택 폼 렌더링
-                <div className="mt-2 ml-6 flex flex-col">
-                  <label>
-                    <input
-                      type="radio"
-                      name={`storage-${ingredient}`}
-                      value="냉장"
-                      checked={storageMethods[ingredient] === '냉장'}
-                      onChange={() =>
-                        handleStorageMethodChange(ingredient, '냉장')
-                      }
-                    />
-                    냉장
-                  </label>
-                  <label>
-                    <input
-                      type="radio"
-                      name={`storage-${ingredient}`}
-                      value="냉동"
-                      checked={storageMethods[ingredient] === '냉동'}
-                      onChange={() =>
-                        handleStorageMethodChange(ingredient, '냉동')
-                      }
-                    />
-                    냉동
-                  </label>
-                  <div className="mt-2">
+                <div className="flex w-full">
+                  <div className="mt-2 flex flex-col">
+                    <label>
+                      <input
+                        type="radio"
+                        name={`storage-${ingredient}`}
+                        value="냉장"
+                        checked={storageMethods[ingredient] === '냉장'}
+                        onChange={() =>
+                          handleStorageMethodChange(ingredient, '냉장')
+                        }
+                      />
+                      냉장
+                    </label>
+                    <label>
+                      <input
+                        type="radio"
+                        name={`storage-${ingredient}`}
+                        value="냉동"
+                        checked={storageMethods[ingredient] === '냉동'}
+                        onChange={() =>
+                          handleStorageMethodChange(ingredient, '냉동')
+                        }
+                      />
+                      냉동
+                    </label>
+                  </div>
+                  <div className="flex flex-col items-center justify-center pl-16">
                     <span>소비기한 </span>
                     <input
                       type="date"
