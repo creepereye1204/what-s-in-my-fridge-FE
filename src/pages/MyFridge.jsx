@@ -1,7 +1,6 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import Sidebar from "../components/Sidebar";
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const MyFridge = () => {
   const [ingredients, setIngredients] = useState([]);
@@ -9,7 +8,7 @@ const MyFridge = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get("http://210.109.52.15/get");
+      const response = await axios.get('http://210.109.52.15/get');
       if (response.status === 200) {
         const serverData = response.data;
 
@@ -27,8 +26,8 @@ const MyFridge = () => {
         setIngredients(newData);
       }
     } catch (e) {
-      alert("서버와 연결되지 않았습니다.");
-      console.log("데이터 불러오기 오류 => " + e);
+      alert('서버와 연결되지 않았습니다.');
+      console.log('데이터 불러오기 오류 => ' + e);
     }
   };
 
@@ -37,37 +36,52 @@ const MyFridge = () => {
   }, []);
 
   return (
-    <div className="bg-blue-100 flex flex-col items-center font-sans text-center relative min-h-screen">
-      <Sidebar />
-      <div className="Jua-font text-blue-900 text-4xl mt-4 sticky top-0 bg-blue-100 flex items-center justify-center relative">
-        <div>냉장고 보기</div>
+    <div className="bg-blue-100 flex flex-col min-h-screen">
+      <div className="flex justify-center items-center w-full mt-4 p-2">
+        <button
+          className="Jua-font border-2 border-sky-900 bg-blue-200 p-2 rounded-2xl select-none"
+          onClick={() => navigate('/AddIngredients')}
+        >
+          재료추가
+        </button>
+        <div className="Jua-font text-blue-900 text-4xl bg-blue-100 flex items-center justify-center relative mx-4">
+          냉장고 보기
+        </div>
+        <button
+          className="Jua-font border-2 border-sky-900 bg-blue-200 p-2 rounded-2xl select-none"
+          onClick={() => navigate('/EditIngredients')}
+        >
+          재료수정
+        </button>
       </div>
       <div className="w-full flex justify-center">
         <hr className="custom-hr w-full" />
       </div>
-      <div className="Jua-font flex fixed right-0 top-0 p-4 space-x-4 bg-blue-100">
-        <div
-          className="Jua-font border-2 border-sky-900 bg-blue-200 p-1 rounded-2xl select-none"
-          onClick={() => navigate("/AddIngredients")}
-        >
-          재료추가
-        </div>
-        <div
-          className="Jua-font border-2 border-sky-900 bg-blue-200 p-1 rounded-2xl select-none"
-          onClick={() => navigate("/EditIngredients")}
-        >
-          재료수정
-        </div>
-      </div>
-
-      <div>
+      <div className="w-full flex flex-col items-center">
         {ingredients.map((data) => (
-          <div className="Jua-font mb-4" key={data.id}>
-            <img src={`/images/${data.ingredient}.png`} alt={data.ingredient} />
-            {data.ingredient} {data.count} (
-            {data.ingredient === "고기" ? "g" : "개"})
-            {data.storeMethod === "냉동" ? "냉동보관" : "냉장보관"}, D-
-            {data.dDay}
+          <div
+            className="Jua-font w-full flex items-center p-2 border-b border-gray-300"
+            key={data.id}
+          >
+            <div className="flex items-center">
+              <img
+                className="w-16 h-16"
+                src={`/images/${data.ingredient}.png`}
+                alt={data.ingredient}
+              />
+              <div className="ml-4">
+                <div>
+                  {data.ingredient} {data.count} (
+                  {data.ingredient === '고기' ? 'g' : '개'})
+                </div>
+                <div className="text-sm text-gray-600">
+                  {data.storeMethod === '냉동' ? '냉동보관' : '냉장보관'}
+                </div>
+              </div>
+            </div>
+            <div className="ml-auto text-right text-red-500 text-lg mr-4">
+              D-{data.dDay}
+            </div>
           </div>
         ))}
       </div>
