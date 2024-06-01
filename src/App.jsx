@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import {
   Home,
@@ -11,11 +11,11 @@ import {
   SignUp,
   Write,
   Post,
-} from "./pages";
+} from './pages';
 
-import Context from "./components/Context";
-import "./index.css";
-import { useState } from "react";
+import Context from './components/Context';
+import './index.css';
+import { useState } from 'react';
 
 function App() {
   const [isSidebarOpened, setisSidebarOpened] = useState(false);

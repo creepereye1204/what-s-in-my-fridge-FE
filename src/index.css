@@ -1,11 +1,11 @@
-@import url("https://fonts.googleapis.com/css2?family=Jua&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 .Jua-font {
-  font-family: "Jua";
+  font-family: 'Jua';
 }
 
 .slide-menu {
@@ -22,7 +22,7 @@
   padding: 0;
 }
 
-input[type="checkbox"]:checked ~ .slide-menu {
+input[type='checkbox']:checked ~ .slide-menu {
   left: 0;
 }
 

@@ -1,15 +1,15 @@
-import axios from "axios";
-import { useState, useEffect } from "react";
-import { useNavigate, useParams, useLocation } from "react-router-dom";
-import Sidebar from "../components/Sidebar";
+import axios from 'axios';
+import { useState, useEffect } from 'react';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
+import Sidebar from '../components/Sidebar';
 
 const Write = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const location = useLocation();
-  const [title, setTitle] = useState("");
-  const [contents, setContents] = useState("");
-  const [nickname, setNickname] = useState("");
+  const [title, setTitle] = useState('');
+  const [contents, setContents] = useState('');
+  const [nickname, setNickname] = useState('');
   const [loading, setLoading] = useState(true);
   const [image, setImage] = useState(null);
   const isEditMode = location.state && location.state.isEditMode;
@@ -17,12 +17,12 @@ const Write = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://210.109.52.15/myinfo");
+        const response = await axios.get('http://127.0.0.1:5000/myinfo');
         const { nickname } = response.data;
         setNickname(nickname);
         setLoading(false);
       } catch (error) {
-        setNickname("no_nickname");
+        setNickname('no_nickname');
         setLoading(false);
       }
     };
@@ -34,14 +34,15 @@ const Write = () => {
     if (isEditMode && id) {
       const fetchPostData = async () => {
         try {
-          const response = await axios.get(`http://210.109.52.15/post/${id}`);
-          const { title, contents, nickname } = response.data;
+          const response = await axios.get(`http://127.0.0.1:5000/post/${id}`);
+          const { title, contents, nickname, image } = response.data;
           setTitle(title);
           setContents(contents);
           setNickname(nickname);
+          setImage(image);
           setLoading(false);
         } catch (error) {
-          alert("글을 불러오는데 오류가 발생했습니다.");
+          alert('글을 불러오는데 오류가 발생했습니다.');
         }
       };
 
@@ -50,8 +51,8 @@ const Write = () => {
   }, [isEditMode, id]);
 
   useEffect(() => {
-    if (nickname === "no_nickname") {
-      alert("글을 쓰기 위해서 로그인이 필요합니다!");
+    if (nickname === 'no_nickname') {
+      alert('글을 쓰기 위해서 로그인이 필요합니다!');
       // navigate("/SignIn");
     }
   }, [isEditMode, loading, nickname]);
@@ -71,50 +72,52 @@ const Write = () => {
   const handleSubmit = async () => {
     try {
       if (isEditMode) {
-        const shouldUpdate = window.confirm("수정하시겠습니까?");
+        const shouldUpdate = window.confirm('수정하시겠습니까?');
         if (shouldUpdate) {
           const formData = new FormData(); // FormData 객체 생성
-          formData.append("title", title); // 제목 추가
-          formData.append("contents", contents); // 본문 추가
+          formData.append('title', title); // 제목 추가
+          formData.append('contents', contents); // 본문 추가
           if (image) {
-            formData.append("image", image); // 이미지 파일 추가
+            formData.append('image', image); // 이미지 파일 추가
           }
 
           // 글 수정 요청 처리
-          axios.put(`/post/${id}`, formData, {
+          axios.put(`http://127.0.0.1:5000/post/${id}`, formData, {
             headers: {
-              "Content-Type": "multipart/form-data", // 이미지 업로드를 위한 헤더 설정
+              'Content-Type': 'multipart/form-data', // 이미지 업로드를 위한 헤더 설정
             },
           });
-          alert("글이 성공적으로 수정되었습니다.");
-          navigate(`/post/${id}`);
+          alert('글이 성공적으로 수정되었습니다.');
+          navigate(`http://127.0.0.1:5000/post/${id}`);
         }
       } else {
-        const shouldSubmit = window.confirm("작성하시겠습니까?");
+        const shouldSubmit = window.confirm('작성하시겠습니까?');
         if (shouldSubmit) {
           const formData = new FormData(); // FormData 객체 생성
-          formData.append("title", title); // 제목 추가
-          formData.append("contents", contents); // 본문 추가
+          formData.append('title', title); // 제목 추가
+          formData.append('contents', contents); // 본문 추가
           if (image) {
-            formData.append("image", image); // 이미지 파일 추가
+            formData.append('image', image); // 이미지 파일 추가
           }
 
           // 글 작성 요청 처리
-          await axios.post("/post/add", formData, {
+          await axios.post('http://127.0.0.1:5000/post/add', formData, {
             headers: {
-              "Content-Type": "multipart/form-data", // 이미지 업로드를 위한 헤더 설정
+              'Content-Type': 'multipart/form-data', // 이미지 업로드를 위한 헤더 설정
             },
+            withCredentials: true, // credential 옵션 추가
           });
-          alert("글이 성공적으로 저장되었습니다.");
-          navigate("/Community");
+
+          alert('글이 성공적으로 저장되었습니다.');
+          navigate('/Community');
         }
       }
     } catch (error) {
-      alert("글 저장에 실패했습니다..");
+      alert('글 저장에 실패했습니다..');
       if (isEditMode) {
-        navigate(`/post/${id}`);
+        navigate(`http://127.0.0.1:5000/post/${id}`);
       } else {
-        navigate("/Community");
+        navigate('/Community');
       }
     }
   };
@@ -141,7 +144,7 @@ const Write = () => {
             <textarea
               className="w-full h-96 resize-none outline-none bg-blue-50 text-sky-900"
               placeholder="본문을 입력하세요!"
-              maxLength={"1000"}
+              maxLength={'1000'}
               value={contents}
               onChange={handleContentsChange}
               required
@@ -158,7 +161,7 @@ const Write = () => {
             <input
               className="Jua-font border-2 border-sky-900 p-2 rounded-2xl bg-blue-300 blue-600 hover:bg-blue-600"
               type="button"
-              value={isEditMode ? "수정하기" : "작성하기"}
+              value={isEditMode ? '수정하기' : '작성하기'}
               onClick={handleSubmit}
             />
           </div>
