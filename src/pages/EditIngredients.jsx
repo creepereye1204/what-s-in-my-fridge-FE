@@ -1,15 +1,19 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import Sidebar from '../components/Sidebar';
+import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const EditIngredients = () => {
   const [ingredients, setIngredients] = useState([]);
   const [storageMethods, setStorageMethods] = useState({});
-
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://210.109.52.15/get');
+        const response = await axios.get('http://127.0.0.1:5000/get', {
+          withCredentials: true,
+        });
         const data = response.data;
         setIngredients(data);
 
@@ -19,7 +23,7 @@ const EditIngredients = () => {
         }
         setStorageMethods(initialStorageMethods);
       } catch (e) {
-        alert('서버와 연결되지 않았습니다.');
+        alert('서버와 연결되aa지 않았습니다.');
         console.log('데이터 불러오기 오류 =>', e);
       }
     };
@@ -71,22 +75,45 @@ const EditIngredients = () => {
   };
 
   const handleRemoveIngredient = (id) => {
-    setIngredients((prevIngredients) => {
-      const updatedIngredients = prevIngredients.filter(
-        (item) => item.id !== id
-      );
-      const updatedMethods = { ...storageMethods };
-      delete updatedMethods[id];
-      setStorageMethods(updatedMethods);
-      return updatedIngredients;
-    });
+    axios
+      .get(`http://127.0.0.1:5000/delete?id=${id}`, {
+        withCredentials: true,
+      })
+      .then(() => {
+        setIngredients((prevIngredients) => {
+          const updatedIngredients = prevIngredients.filter(
+            (item) => item.id !== id
+          );
+          const updatedMethods = { ...storageMethods };
+          delete updatedMethods[id];
+          setStorageMethods(updatedMethods);
+          return updatedIngredients;
+        });
+      })
+      .catch((error) => {
+        console.error('Error deleting ingredient:', error);
+      });
   };
 
   const handleSubmit = () => {
-    axios.post('http://210.109.52.15/modify', ingredients, {
-      withCredentials: true,
-    });
-    console.log(ingredients);
+    const modifiedIngredients = ingredients.map((item) => ({
+      ingredient: item.ingredient,
+      store_method: storageMethods[item.id],
+      count: item.count,
+      expire_date: item.expireDate,
+    }));
+
+    axios
+      .post('http://127.0.0.1:5000/modify', modifiedIngredients, {
+        withCredentials: true,
+      })
+      .then((response) => {
+        console.log(response.data);
+        navigate('/');
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   return (
@@ -113,10 +140,8 @@ const EditIngredients = () => {
                       type="radio"
                       name={`storage-${item.id}`}
                       value="냉장"
-                      checked={storageMethods[item.id] === '냉장'}
-                      onChange={() =>
-                        handleStorageMethodChange(item.id, '냉장')
-                      }
+                      checked={storageMethods[item.id] === true}
+                      onChange={() => handleStorageMethodChange(item.id, true)}
                     />
                     냉장
                   </label>
@@ -125,10 +150,8 @@ const EditIngredients = () => {
                       type="radio"
                       name={`storage-${item.id}`}
                       value="냉동"
-                      checked={storageMethods[item.id] === '냉동'}
-                      onChange={() =>
-                        handleStorageMethodChange(item.id, '냉동')
-                      }
+                      checked={storageMethods[item.id] === false}
+                      onChange={() => handleStorageMethodChange(item.id, false)}
                     />
                     냉동
                   </label>

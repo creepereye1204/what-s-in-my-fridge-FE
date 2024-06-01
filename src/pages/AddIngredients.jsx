@@ -16,21 +16,21 @@ const AddIngredients = () => {
   const navigate = useNavigate();
 
   const handleSelectIngredient = (ingredient) => {
-    const incresement = ingredient === '고기' ? 50 : 1;
+    const increment = ingredient === '고기' ? 50 : 1;
     setSelectedIngredients((prevState) => ({
       ...prevState,
       [ingredient]: prevState[ingredient]
-        ? prevState[ingredient] + incresement
-        : incresement,
+        ? prevState[ingredient] + increment
+        : increment,
     }));
   };
 
   const handleRemoveIngredient = (ingredient) => {
-    const decreasement = ingredient === '고기' ? 50 : 1;
-    if (selectedIngredients[ingredient] > decreasement) {
+    const decrement = ingredient === '고기' ? 50 : 1;
+    if (selectedIngredients[ingredient] > decrement) {
       setSelectedIngredients((prevState) => ({
         ...prevState,
-        [ingredient]: prevState[ingredient] - decreasement,
+        [ingredient]: prevState[ingredient] - decrement,
       }));
     } else {
       const updatedIngredients = { ...selectedIngredients };
@@ -48,13 +48,14 @@ const AddIngredients = () => {
 
   const handleExpirationDateChange = (ingredient, date) => {
     const selectedDate = new Date(date);
-    const currentDate = new Date();
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // 오늘 날짜의 00:00:00으로 설정
 
-    if (selectedDate < currentDate) {
-      alert('소비기한은 현재 날짜 이후여야 합니다.');
+    if (selectedDate < today) {
+      alert('소비기간이 이미지난 상태입니다.');
       const inputElement = document.querySelector(`#ingredient-${ingredient}`);
       if (inputElement) {
-        const formattedDate = currentDate.toISOString().slice(0, 10);
+        const formattedDate = today.toISOString().slice(0, 10);
         inputElement.value = formattedDate;
       }
       return;
@@ -67,12 +68,13 @@ const AddIngredients = () => {
 
   const handleSubmit = () => {
     const selectedData = Object.keys(selectedIngredients).map((ingredient) => ({
-      [ingredient]: selectedIngredients[ingredient],
-      storeMethod: storageMethods[ingredient],
+      ingredient: ingredient,
+      storeMethod: storageMethods[ingredient] === '냉동',
       expireDate: expirationDates[ingredient] || '2000-01-01',
+      ingredientCount: selectedIngredients[ingredient],
     }));
     axios
-      .post('http://210.109.52.15/add', selectedData, {
+      .post('http://127.0.0.1:5000/add', selectedData, {
         withCredentials: true,
       })
       .then((response) => {

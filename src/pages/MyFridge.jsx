@@ -8,8 +8,12 @@ const MyFridge = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('http://210.109.52.15/get');
-      if (response.status === 200) {
+      const response = await axios.get('http://127.0.0.1:5000/get', {
+        withCredentials: true,
+      });
+      if (response.data === '로그인해주세요!') {
+        navigate('/');
+      } else {
         const serverData = response.data;
 
         const today = new Date();
@@ -26,7 +30,7 @@ const MyFridge = () => {
         setIngredients(newData);
       }
     } catch (e) {
-      alert('서버와 연결되지 않았습니다.');
+      alert('서버와 연결되ss지 않았습니다.');
       console.log('데이터 불러오기 오류 => ' + e);
     }
   };
@@ -75,7 +79,7 @@ const MyFridge = () => {
                   {data.ingredient === '고기' ? 'g' : '개'})
                 </div>
                 <div className="text-sm text-gray-600">
-                  {data.storeMethod === '냉동' ? '냉동보관' : '냉장보관'}
+                  {data.storeMethod === true ? '냉동보관' : '냉장보관'}
                 </div>
               </div>
             </div>

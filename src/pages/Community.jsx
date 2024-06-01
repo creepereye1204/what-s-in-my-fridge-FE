@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
-// import axios from 'axios';
-import Sidebar from "../components/Sidebar";
+import { useEffect, useState } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import axios from 'axios';
+import Sidebar from '../components/Sidebar';
 
 const Community = () => {
   const [postList, setPostList] = useState([]);
@@ -13,51 +13,24 @@ const Community = () => {
   const navigate = useNavigate();
 
   const printFetchError = (error) => {
-    alert("정보를 불러오는데 오류가 발생했습니다. " + error);
+    console.error('정보를 불러오는데 오류가 발생했습니다.', error);
+    alert('정보를 불러오는데 오류가 발생했습니다. 다시 시도해 주세요.');
   };
 
-  /*
-  const getBoardList = async (page) => {
+  const getBoardList = async (pageNumber) => {
     try {
-      const resp = await axios.get(`http://210.109.52.15/post/${page}`);
+      const resp = await axios.get(`http://localhost:5000/post/${pageNumber}`, {
+        withCredentials: true,
+      });
       setPostList(resp.data.data);
       setTotalPages(resp.data.totalPages);
     } catch (err) {
       printFetchError(err);
     }
   };
-  */
-
-  const getBoardList = (page) => {
-    try {
-      const dummyData = [
-        { id: 1, title: "첫번째 게시물", contents: "첫번째 게시물 내용" },
-        { id: 2, title: "두번째 게시물", contents: "두번째 게시물 내용" },
-        { id: 3, title: "세번째 게시물", contents: "세번째 게시물 내용" },
-        { id: 4, title: "네번째 게시물", contents: "네번째 게시물 내용" },
-        { id: 5, title: "다섯번째 게시물", contents: "다섯번째 게시물 내용" },
-        { id: 6, title: "여섯번째 게시물", contents: "여섯번째 게시물 내용" },
-        { id: 7, title: "일곱번째 게시물", contents: "일곱번째 게시물 내용" },
-        { id: 8, title: "여덟번째 게시물", contents: "여덟번째 게시물 내용" },
-        { id: 9, title: "아홉번째 게시물", contents: "아홉번째 게시물 내용" },
-        { id: 10, title: "열번째 게시물", contents: "열번째 게시물 내용" },
-        { id: 11, title: "열한번째 게시물", contents: "열한번째 게시물 내용" },
-        { id: 12, title: "열두번째 게시물", contents: "열두번째 게시물 내용" },
-      ];
-
-      const itemsPerPage = 10;
-      const offset = (page - 1) * itemsPerPage;
-      const paginatedData = dummyData.slice(offset, offset + itemsPerPage);
-
-      setPostList(paginatedData);
-      setTotalPages(Math.ceil(dummyData.length / itemsPerPage));
-    } catch (err) {
-      printFetchError(err);
-    }
-  };
 
   useEffect(() => {
-    const pageNumberToFetch = pageNumber || currentPage;
+    const pageNumberToFetch = pageNumber ? parseInt(pageNumber) : currentPage;
     getBoardList(pageNumberToFetch);
   }, [pageNumber, currentPage]);
 
@@ -86,7 +59,7 @@ const Community = () => {
         <button
           className="Jua-font text-blue-900 text-2xl absolute right-0 mr-4 border-sky-900"
           onClick={() => {
-            navigate("/Write");
+            navigate('/Write');
           }}
         >
           글작성
@@ -97,22 +70,26 @@ const Community = () => {
           <hr className="custom-hr-Community" />
         </div>
         <div className="w-full">
-          {postList.map((post) => (
-            <li key={post.id} className="flex flex-col w-full text-left">
-              <Link to={`/Post/${post.id}`}>
-                <div className="w-full sm:w-64 ml-3 overflow-hidden">
-                  <span className="Jua-font text-blue-900 text-2xl">
-                    {post.title}
-                  </span>
-                  <br></br>
-                  <span className="Jua-font text-blue-900 text-1xl truncate block">
-                    {post.contents}
-                  </span>
-                </div>
-                <hr className="custom-hr-Community w-full" />
-              </Link>
-            </li>
-          ))}
+          {postList && postList.length > 0 ? (
+            postList.map((post) => (
+              <li key={post.id} className="flex flex-col w-full text-left">
+                <Link to={`/post/${post.id}`}>
+                  <div className="w-full sm:w-64 ml-3 overflow-hidden">
+                    <span className="Jua-font text-blue-900 text-2xl">
+                      {post.title}
+                    </span>
+                    <br></br>
+                    <span className="Jua-font text-blue-900 text-1xl truncate block">
+                      {post.contents}
+                    </span>
+                  </div>
+                  <hr className="custom-hr-Community w-full" />
+                </Link>
+              </li>
+            ))
+          ) : (
+            <div>게시물이 없습니다.</div>
+          )}
         </div>
         <div className="mb-4 m-2">
           <button
