@@ -1,7 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import Context from './Context';
 import { useNavigate, useLocation } from 'react-router-dom';
-import axios from 'axios';
 
 const Sidebar = () => {
   const { isSidebarOpened, handleSidebar } = useContext(Context);
@@ -32,7 +31,7 @@ const Sidebar = () => {
         <label htmlFor="menuToggle" className="menu-icon" onClick={toggleMenu}>
           <img
             id="menu"
-            src="https://i.imgur.com/hFA6mNi.png"
+            src="/images/sidebar.png"
             alt="슬라이드 메뉴"
             className="w-8 h-8"
           />
