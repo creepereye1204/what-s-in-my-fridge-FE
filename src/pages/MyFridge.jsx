@@ -68,11 +68,6 @@ const MyFridge = () => {
             key={data.id}
           >
             <div className="flex items-center">
-              <img
-                className="w-16 h-16"
-                src={`/images/${data.ingredient}.png`}
-                alt={data.ingredient}
-              />
               <div className="ml-4">
                 <div>
                   {data.ingredient} {data.count} (
