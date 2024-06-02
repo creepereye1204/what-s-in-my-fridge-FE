@@ -1,95 +1,85 @@
-import axios from 'axios';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-
-const predefinedIngredients = ['계란', '오징어', '당근', '양배추', '고기'];
+import axios from "axios";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const AddIngredients = () => {
-  const [selectedIngredients, setSelectedIngredients] = useState({});
-  const [storageMethods, setStorageMethods] = useState(
-    predefinedIngredients.reduce((acc, ingredient) => {
-      acc[ingredient] = '냉장';
-      return acc;
-    }, {})
-  );
-  const [expirationDates, setExpirationDates] = useState({});
+  const [ingredients, setIngredients] = useState([]);
   const navigate = useNavigate();
 
-  const handleSelectIngredient = (ingredient) => {
-    const increment = ingredient === '고기' ? 50 : 1;
-    setSelectedIngredients((prevState) => ({
-      ...prevState,
-      [ingredient]: prevState[ingredient]
-        ? prevState[ingredient] + increment
-        : increment,
-    }));
+  const handleAddIngredient = () => {
+    setIngredients([
+      ...ingredients,
+      {
+        ingredient: "",
+        count: 1,
+        storeMethod: "냉장",
+        expireDate: "",
+      },
+    ]);
   };
 
-  const handleRemoveIngredient = (ingredient) => {
-    const decrement = ingredient === '고기' ? 50 : 1;
-    if (selectedIngredients[ingredient] > decrement) {
-      setSelectedIngredients((prevState) => ({
-        ...prevState,
-        [ingredient]: prevState[ingredient] - decrement,
-      }));
-    } else {
-      const updatedIngredients = { ...selectedIngredients };
-      delete updatedIngredients[ingredient];
-      setSelectedIngredients(updatedIngredients);
-    }
+  const handleRemoveIngredient = (index) => {
+    setIngredients(ingredients.filter((_, i) => i !== index));
   };
 
-  const handleStorageMethodChange = (ingredient, method) => {
-    setStorageMethods((prevState) => ({
-      ...prevState,
-      [ingredient]: method,
-    }));
+  const handleIngredientChange = (index, field, value) => {
+    setIngredients(
+      ingredients.map((ingredient, i) =>
+        i === index ? { ...ingredient, [field]: value } : ingredient
+      )
+    );
   };
 
-  const handleExpirationDateChange = (ingredient, date) => {
-    const selectedDate = new Date(date);
-    const today = new Date();
-    today.setHours(0, 0, 0, 0); // 오늘 날짜의 00:00:00으로 설정
+  const handleIncreaseCount = (index) => {
+    setIngredients(
+      ingredients.map((ingredient, i) =>
+        i === index
+          ? { ...ingredient, count: ingredient.count + 1 }
+          : ingredient
+      )
+    );
+  };
 
-    if (selectedDate < today) {
-      alert('소비기간이 이미지난 상태입니다.');
-      const inputElement = document.querySelector(`#ingredient-${ingredient}`);
-      if (inputElement) {
-        const formattedDate = today.toISOString().slice(0, 10);
-        inputElement.value = formattedDate;
-      }
-      return;
-    }
-    setExpirationDates((prevState) => ({
-      ...prevState,
-      [ingredient]: date,
-    }));
+  const handleDecreaseCount = (index) => {
+    setIngredients(
+      ingredients.map((ingredient, i) =>
+        i === index
+          ? {
+              ...ingredient,
+              count: ingredient.count > 1 ? ingredient.count - 1 : 1,
+            }
+          : ingredient
+      )
+    );
   };
 
   const handleSubmit = () => {
-    const selectedData = Object.keys(selectedIngredients).map((ingredient) => ({
-      ingredient: ingredient,
-      storeMethod: storageMethods[ingredient] === '냉동',
-      expireDate: expirationDates[ingredient] || '2000-01-01',
-      ingredientCount: selectedIngredients[ingredient],
+    const selectedData = ingredients.map((ingredient) => ({
+      ingredient: ingredient.ingredient,
+      storeMethod: ingredient.storeMethod,
+      expireDate: ingredient.expireDate || "2000-01-01",
+      ingredientCount: ingredient.count,
     }));
+    console.log(selectedData);
     axios
-      .post('http://127.0.0.1:5000/add', selectedData, {
+      .post("http://127.0.0.1:5000/add", selectedData, {
         withCredentials: true,
       })
       .then((response) => {
         if (response.status === 200) {
+          alert("저장되었습니다.");
           console.log(selectedData);
-          navigate('/MyFridge');
+          navigate("/MyFridge");
         }
+      })
+      .catch(() => {
+        alert("오류로 인해 재료가 저장되지 않았습니다.");
       });
   };
 
-  const ingredientCount = Object.keys(selectedIngredients).length;
-
   return (
     <div className="bg-blue-100 flex flex-col items-center font-sans text-center relative min-h-screen">
-      <h2 className="Jua-font text-blue-900 text-4xl sticky mt-4 top-0 bg-blue-100 flex items-center justify-center relative select-none">
+      <h2 className="Jua-font text-blue-900 text-4xl mt-4 top-0 bg-blue-100 flex items-center justify-center relative select-none">
         식재료 추가하기
       </h2>
       <div className="w-full flex justify-center">
@@ -97,84 +87,99 @@ const AddIngredients = () => {
       </div>
       <div className="w-full select-none">
         <ul className="text-left Jua-font text-xl">
-          {predefinedIngredients.map((ingredient) => (
+          {ingredients.map((ingredient, index) => (
             <li
               className="w-full px-4 py-2 flex flex-col items-start border-b-4 border-blue-900 mt-4 mb-4"
-              key={ingredient}
+              key={index}
             >
               <div className="flex items-center">
-                <span>{ingredient}</span>
-                &nbsp;
-                <div className="flex items-center space-x-2">
-                  <span>{selectedIngredients[ingredient] || 0}</span>
-                  <span>{ingredient === '고기' ? 'g' : '개'}</span>
-
-                  <button
-                    onClick={() => handleRemoveIngredient(ingredient)}
-                    className="border-2 border-blue-900 bg-blue-200  h-8 w-8 rounded-lg ml-1"
-                  >
-                    -
-                  </button>
-                  <button
-                    onClick={() => handleSelectIngredient(ingredient)}
-                    className="border-2 border-blue-900 bg-blue-200  h-8 w-8 rounded-lg ml-1"
-                  >
-                    +
-                  </button>
-                </div>
+                <input
+                  type="text"
+                  value={ingredient.ingredient}
+                  onChange={(e) =>
+                    handleIngredientChange(index, "ingredient", e.target.value)
+                  }
+                  placeholder="재료명"
+                  className="border-2 border-blue-900 bg-blue-200 h-8 w-48 rounded-lg mr-2"
+                />
+                <button
+                  onClick={() => handleDecreaseCount(index)}
+                  className="border-2 border-blue-900 bg-blue-200 h-8 w-8 rounded-lg ml-1"
+                >
+                  -
+                </button>
+                <span className="mx-2">{ingredient.count}</span>
+                <button
+                  onClick={() => handleIncreaseCount(index)}
+                  className="border-2 border-blue-900 bg-blue-200 h-8 w-8 rounded-lg"
+                >
+                  +
+                </button>
               </div>
-              {selectedIngredients[ingredient] > 0 && (
-                // 선택된 재료가 있을 때만 보관 방법과 소비기한 선택 폼 렌더링
-                <div className="flex w-full">
-                  <div className="mt-2 flex flex-col">
-                    <label>
-                      <input
-                        type="radio"
-                        name={`storage-${ingredient}`}
-                        value="냉장"
-                        checked={storageMethods[ingredient] === '냉장'}
-                        onChange={() =>
-                          handleStorageMethodChange(ingredient, '냉장')
-                        }
-                      />
-                      냉장
-                    </label>
-                    <label>
-                      <input
-                        type="radio"
-                        name={`storage-${ingredient}`}
-                        value="냉동"
-                        checked={storageMethods[ingredient] === '냉동'}
-                        onChange={() =>
-                          handleStorageMethodChange(ingredient, '냉동')
-                        }
-                      />
-                      냉동
-                    </label>
-                  </div>
-                  <div className="flex flex-col items-center justify-center pl-16">
-                    <span>소비기한 </span>
+              <div className="flex w-full">
+                <div className="mt-2 flex flex-col">
+                  <label>
                     <input
-                      type="date"
-                      id={`ingredient-${ingredient}`}
-                      onChange={(e) =>
-                        handleExpirationDateChange(ingredient, e.target.value)
+                      type="radio"
+                      name={`storage-${index}`}
+                      value="냉장"
+                      checked={ingredient.storeMethod === "냉장"}
+                      onChange={() =>
+                        handleIngredientChange(index, "storeMethod", "냉장")
                       }
                     />
-                  </div>
+                    냉장
+                  </label>
+                  <label>
+                    <input
+                      type="radio"
+                      name={`storage-${index}`}
+                      value="냉동"
+                      checked={ingredient.storeMethod === "냉동"}
+                      onChange={() =>
+                        handleIngredientChange(index, "storeMethod", "냉동")
+                      }
+                    />
+                    냉동
+                  </label>
                 </div>
-              )}
+                <div className="flex flex-col items-center justify-center pl-16">
+                  <span>소비기한 </span>
+                  <input
+                    type="date"
+                    value={ingredient.expireDate}
+                    onChange={(e) =>
+                      handleIngredientChange(
+                        index,
+                        "expireDate",
+                        e.target.value
+                      )
+                    }
+                  />
+                </div>
+              </div>
+              <button
+                onClick={() => handleRemoveIngredient(index)}
+                className="border-2 border-blue-900 bg-blue-200 h-8 w-16 rounded-lg mt-2 self-end"
+              >
+                삭제
+              </button>
             </li>
           ))}
         </ul>
       </div>
-      {ingredientCount > 0 && (
-        // 선택된 재료가 있을 때만 추가하기 버튼 렌더링
+      <button
+        className="Jua-font border-2 border-blue-900 bg-purple-200 h-10 w-24 mt-4 rounded-lg mb-4"
+        onClick={handleAddIngredient}
+      >
+        재료 추가하기
+      </button>
+      {ingredients.length > 0 && (
         <button
-          className="Jua-font border-2 border-blue-900 bg-blue-200 h-10 w-16 mt-4"
+          className="Jua-font border-2 border-blue-900 bg-green-200 h-10 w-16 rounded-lg mb-4"
           onClick={handleSubmit}
         >
-          추가하기
+          저장하기
         </button>
       )}
     </div>
