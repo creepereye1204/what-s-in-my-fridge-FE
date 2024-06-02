@@ -1,6 +1,6 @@
-import axios from 'axios';
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const MyFridge = () => {
   const [ingredients, setIngredients] = useState([]);
@@ -8,11 +8,11 @@ const MyFridge = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('http://127.0.0.1:5000/get', {
+      const response = await axios.get("http://127.0.0.1:5000/get", {
         withCredentials: true,
       });
-      if (response.data === '로그인해주세요!') {
-        navigate('/');
+      if (response.data === "로그인해주세요!") {
+        navigate("/");
       } else {
         const serverData = response.data;
 
@@ -30,8 +30,8 @@ const MyFridge = () => {
         setIngredients(newData);
       }
     } catch (e) {
-      alert('서버와 연결되ss지 않았습니다.');
-      console.log('데이터 불러오기 오류 => ' + e);
+      alert("서버와 연결되지 않았습니다.");
+      console.log("데이터 불러오기 오류 => " + e);
     }
   };
 
@@ -44,7 +44,7 @@ const MyFridge = () => {
       <div className="flex justify-center items-center w-full mt-4 p-2">
         <button
           className="Jua-font border-2 border-sky-900 bg-blue-200 p-2 rounded-2xl select-none"
-          onClick={() => navigate('/AddIngredients')}
+          onClick={() => navigate("/AddIngredients")}
         >
           재료추가
         </button>
@@ -53,7 +53,7 @@ const MyFridge = () => {
         </div>
         <button
           className="Jua-font border-2 border-sky-900 bg-blue-200 p-2 rounded-2xl select-none"
-          onClick={() => navigate('/EditIngredients')}
+          onClick={() => navigate("/EditIngredients")}
         >
           재료수정
         </button>
@@ -76,10 +76,10 @@ const MyFridge = () => {
               <div className="ml-4">
                 <div>
                   {data.ingredient} {data.count} (
-                  {data.ingredient === '고기' ? 'g' : '개'})
+                  {data.ingredient === "고기" ? "g" : "개"})
                 </div>
                 <div className="text-sm text-gray-600">
-                  {data.storeMethod === true ? '냉동보관' : '냉장보관'}
+                  {data.storeMethod === true ? "냉동보관" : "냉장보관"}
                 </div>
               </div>
             </div>
